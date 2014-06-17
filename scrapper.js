@@ -1,5 +1,6 @@
 var htmlparser = require('htmlparser2');
 var https = require('https');
+var http = require('http');
 var fs = require('fs');
 function np(attrib,regexVal,cb){
 	var reg = new RegExp(regexVal);
@@ -34,45 +35,65 @@ function get(base,val,cb,cache){
 	
 }
 var base = 'https://web.archive.org';
-var urls = ['/web/2014*/http://jw.org/en']//,'/web/2013*/http://jw.org/en','/web/2012*/http://jw.org/en'];
+var urls = {'/web/2014*/http://jw.org/en':true,'/web/2013*/http://jw.org/en':true,'/web/2012*/http://jw.org/en':true};
+var cache = {};
 function it(urls,regex,attr,endF){
-	var cache = {};
-	var arr = [];
-	for( idx in urls ){
-	//	var req = get(base,urls[idx],np('href','.*http://www.jw.org',function(val){
-	//		get(base,val,np('data-img-size-lg','.*http://assets.jw.org/.*/[0-9]+.*lg.jpg',function(val){
-	//			var parts = val.split('/');
-	//			var fname = parts[parts.length-1];
-	//			console.log('Writing '+fname);
-	//			get(base,'/web/'+val,function(res){
-	//				console.log('Creating stream for '+fname);
-	//				var stream = fs.createWriteStream(fname);
-	//				stream.on('error',function(err){
-	//						console.log('Whoops!');
-	//						console.log(err);
-	//				});
-	//				return stream;
-	//			},cache);
-	//		}),cache);	
-	//	}),cache);
-	//
-		var reg = new RegExp(regex);
+	console.log(urls);
+	var reg = new RegExp(regex);
+	
+	function _do(idx){
+		var arr = {};
 		var parser = new htmlparser.Parser({
 			onattribute:function(name,val){
 				if(name == attr && reg.test(val)){
-					arr.push(val);
+					console.log('read '+idx+' '+val);
+					arr[val] = true;
 				}
 			}
 		});
-		var req = https.get(base+urls[idx],function(res){
-			res.on('data',function(data){parser.write(data)}).on('end',function(){endF(arr)});
-		});
+		if(!cache[idx]){
+			console.log('cache miss '+idx);
+			var req = https.get(base+idx,function(res){
+				res.on('data',function(data){
+					parser.write(data)
+				}).on('end',function(){
+					console.log('parsed '+this.req.path+' '+idx+ ' '+(this.req.path === idx));
+					console.log(arr);
+					parser.end();
+					cache[this.req.path] = true;
+					endF(arr)
+				}).on('error',function(err){console.log(err)});
+			}).on('error',function(err){console.log(err)});
+		}else console.log('cached '+idx);
 	}
-	return arr;
+	for( idx in urls ){
+		_do(idx);
+	}
 
 }
-console.log(it(urls,'.*http://www.jw.org/','href',function(arr){
-	it(arr,'.*http://assets.jw.org/.*/[0-9]+.*lg.jpg','data-img-size-lg',function(arr){
-		console.log(arr);	
+it(urls,'.*http://www.jw.org/','href',function(arr){
+	it(arr,'.*assets/.*/[0-9]+.*(pnr|cnt).*lg.jpg','data-img-size-lg',function(arr){
+		console.log(arr);
+		function _get(url){
+			var parts = url.split('/');
+			var fname = parts[parts.length-1];
+			if(!cache[url] && !cache[fname]){
+				var proto = /^https:\/\/.*/.test(url)?https:http;
+				return proto.get(url,function(res){
+					if(res.statusCode === 200){
+						if(!cache[url] && !cache[fname]){
+							cache[fname] = true;
+							var stream = fs.createWriteStream(fname);
+							stream.on('error',function(err){console.log(err);cache[fname]=false;}).on('finish',function(){console.log('wrote '+fname);});
+							res.pipe(stream);
+						}else console.log('cached '+url+' '+fname);
+					}else if(res.statusCode === 302){
+						console.log('REDIRECTING '+url+' to '+res.headers.location);
+						_get(res.headers.location);
+					}else console.log(res);
+				}).on('error',function(err){console.log(err)});
+			}else console.log('cached '+url+ ' '+fname);
+		}
+		for(url in arr)_get(url);
 	});
-}));
+});
