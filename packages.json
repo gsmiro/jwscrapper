@@ -1,0 +1,16 @@
+{
+  'name':'jwscrapper',
+  'version':0.0.1,
+  'description':'A WayBackMachine/jw.org scrapper ',
+  'keywords': ['scrapper','jw.org'],
+  'homepage':'https://github.com/gsmiro/jwscrapper',
+  'bugs':{
+    'url':'https://github.com/gsmiro/jwscrapper/issues',
+    'email': 'gsmiro@gmail.com'
+  },
+  'license':'MIT',
+  'dependencies':{
+    {'htmlparser2':'>=3.7.2'},
+    {'mongodb':'>=1.4.7'}
+  }
+}
