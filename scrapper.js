@@ -1,6 +1,6 @@
 var htmlparser = require('htmlparser2');
-var https = require('https');
-var http = require('http');
+//var https = require('https');
+//var http = require('http');
 var fs = require('fs');
 var crypto = require('crypto');
 var mongo = require('mongodb');
@@ -8,152 +8,111 @@ var cron = require('node-schedule');
 
 
 var base = 'https://web.archive.org';
-var urls = {'https://web.archive.org/web/2014*/http://jw.org/en':true,'https://web.archive.org/web/2013*/http://jw.org/en':true,'https://web.archive.org/web/2012*/http://jw.org/en':true};
+var urls = ['http://www.jw.org/en/']//['https://web.archive.org/web/2014*/http://jw.org/en',
+						//'https://web.archive.org/web/2013*/http://jw.org/en',
+						//'https://web.archive.org/web/2012*/http://jw.org/en'];
 var cache = {};
-function it(base,urls,regex,attr,end){
-	console.log(urls);
-	var reg = new RegExp(regex);
-	var cnt = 0;
-	var  max = urls.length;
-	if(max === udefined){
-		max = 0;
-		for( url in urls)max++;
-	}
-	var arr = {};
-	function _do(url){
-		var parser = new htmlparser.Parser({
-			onattribute:function(name,val){
-				if(name == attr && reg.test(val)){
-					if(val.indexOf(base) == 0)
-						arr[val] = url;
-					else
-						arr[base+val] = url;
-				}
-			}
-		});
-		if(!cache[url]){
-			console.log('cache miss '+url);
-			var req = https.get(url,function(res){
-				res.on('data',function(data){
-					parser.write(data)
-				}).on('end',function(){
-					console.log('parsed '+this.req.path+' for '+url);
-					parser.end();
-					console.log(arr);
-					cache[this.req.path] = true;
-					cnt++;
-					if(cnt == max)
-						end(arr)
-					else console.log(cnt +' '+max);
-				}).on('error',function(err){console.log(err);cnt++;});
-			}).on('error',function(err){console.log(err);cnt++});
-		}else {console.log('cached '+url);cnt++}
-	}
-	for( url in urls ){
-		_do(url);
-	}
-}
-
-it(base,urls,'.*http://www.jw.org/','href',function(arr){
-	it('http://assets.jw.org/',arr,'.*assets/.*/[0-9]+.*(pnr|cnt).*lg.jpg','data-img-size-lg',function(arr){
-		mongo.connect('mongodb://localhost:27017/jwscrapper',function(err,db){
-			console.log('saving');
-			console.log(arr);
-			if(err)throw err;
-			console.log('connected');
-			var docs = [];
-			function _from(val){
-				var arr = [];
-				var value = val.match(/web.([0-9]+).http/)[1];
-				for(var idx in [4,2,2,2]){
-					arr.push()
-				}
-				return
-			}
-			for(var url in arr) docs.push({'_id':url,'from':_from(arr[url])});
-			db.collection('imgs').insert(docs,{w:1},function(err,result){
-				console.log(result);
-			});
-			db.close();
-		});
-	});
-});
 
 function foreach(arr,proc,end){
+	(function(){
 	this._arr = [];
 	for(var idx in arr){
-		if(idx === arr.length - 1)
+		console.log('%d %d',idx,arr.length)
+		if(idx == arr.length - 1)
 		  proc.call(this,idx,arr[idx],end);
 		else proc.call(this,idx,arr[idx]);
-	}
+	}})();
 }
 
-function invoke(idx,item,res,end){
+function invoke(idx,url,end){
 	this._token = 'init';
 	this._readtext = false;
 	this._item = {};
-
+	var self = this;
 	var parser = new htmlparser.Parser({
 		onopentag:function(name,attribs){
-			if(this._token === 'init' && name === 'li' && attribs.class && attribs.class.match(/\s*sliderItem\s*/)){
-				this._token = name;
-			}else if(this._token === 'li'){
-				if(name === 'div' && attribs.class && attribs.class.match(/\s*jsImgDescr\s*/){
-					this._token = 'facts';
+			function dbg(){
+				console.log('onopentag %s %s %s',name,self._token,self._readtext);
+				console.log(self._item);
+				console.log(attribs);
+			}
+			if(name === 'li' && attribs.class && attribs.class.match(/\s*sliderItem\s*/)){
+				dbg();
+				if(self._item.images !== undefined){
+					self._arr.push(self._item);
+					self._item = {};
 				}
-			}else if(this._token === 'facts'){
-				if(name === 'h2' || name === 'h3'){
-					this._token = name;
-				}else if(name === 'p'){
-					if(attribs.id === 'p2')this._token = 'population'
-					else if(attribs.id === 'p3')this._token = 'ministers'
-					else if(attribs.id === 'p4')this._token = 'congregations'
-					else if(attribs.id === 'p5')this._token = 'rate'
-					this._readtext = true;
-					this._item[this._token] = [];
+				self._token = name;
+			}else if(self._token === 'li'){
+				if(name === 'div' && attribs.class && attribs.class.match(/\s*jsImgDescr\s*/)){
+					dbg();
+					self._token = 'facts';
+				}
+			}else if(self._token === 'facts'){
+			 if(name === 'p' || name === 'h2' || name === 'h3'){
+					dbg();
+					if(attribs.id === 'p2')self._token = 'population'
+					else if(attribs.id === 'p3')self._token = 'ministers'
+					else if(attribs.id === 'p4')self._token = 'congregations'
+					else if(attribs.id === 'p5')self._token = 'rate'
+					else self._token = name;
+					self._readtext = true;
+					self._item[self._token] = [];
 				}
 			}
 			if(name === 'span' && attribs.class && attribs.class.match(/\s*jsRespImg\s*/)){
+				dbg();
 				var o = {};
+				var add = false;
 				for(var att in attribs)
-					if(att.match(/data-image-size-\w{2}/)){
+					if(att.match(/data-img-size-\w{2}/)){
 						o[att] = attribs[att];
+						add = true;
 					}
-				this._item.images = o;
+				if(add)
+					self._item.images = o;
+				console.log(self._item);
 			}
 		},
 		ontext:function(text){
-			if(this._readtext)
-				this._item[this._token].push(text);
+			if(self._readtext){
+				console.log('ontext %s %s %s',text,self._token,self._readtext);
+				self._item[self._token].push(text);
+				console.log(self._item);
 			}
+
 		},
 		onclosetag:function(name){
-			if(this._token === 'end'){
-				this._arr.push(this._item);
-				this._token = 'init';
-			}else if(name === 'h2' || name === 'h3'){
-				this._token = 'facts';
-			}else if(this._token === 'population' ||
-				this._token === 'ministers' ||
-				this._token === 'congregations' ||
-				this._token === 'rate'){
-					this._token = 'facts';
+			function dbg(){
+				console.log('onclosetag %s %s %s',name,self._token,self._readtext);
+				console.log(self._item);
+				console.log(self._arr);
+			}
+			if(self._readtext){
+				dbg();
+				self._token = 'facts';
+				self._readtext = false;
+
 			}
 		}
 	});
 	if(!cache[url]){
 		console.log('cache miss '+url);
-		var req = https.get(url,function(res){
+		var proto = url.match(/https:.*/)?require('https'):require('http');
+		var req = proto.get(url,function(res){
 			res.on('data',function(data){
 				parser.write(data)
 			}).on('end',function(){
 				console.log('parsed '+this.req.path+' for '+url);
 				parser.end();
-				console.log(this.arr);
 				cache[this.req.path] = true;
+				console.log(end);
 				if(end)
-					end(this.arr)
+					end(self._arr)
 			}).on('error',function(err){console.log(err);cnt++;});
 		}).on('error',function(err){console.log(err);cnt++});
 	}else {console.log('cached '+url);cnt++}
 }
+foreach(urls,invoke,function(arr){
+	console.log(arr);
+})
