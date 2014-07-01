@@ -80,19 +80,19 @@ it(base,urls,'.*http://www.jw.org/','href',function(arr){
 });
 
 function foreach(arr,proc,end){
-	var res = [];
-	this.arr = [];
+	this._arr = [];
 	for(var idx in arr){
-		if(idx === arr.length)
-		  proc.call(this,idx,arr[idx]);
-		else proc.call(this,idx,arr[idx],end);
+		if(idx === arr.length - 1)
+		  proc.call(this,idx,arr[idx],end);
+		else proc.call(this,idx,arr[idx]);
 	}
-	return res;
 }
 
 function invoke(idx,item,res,end){
-	console.log(this.arr);
-  var self = this;
+	this._token = 'init';
+	this._readtext = false;
+	this._item = {};
+
 	var parser = new htmlparser.Parser({
 		onopentag:function(name,attribs){
 			if(this._token === 'init' && name === 'li' && attribs.class && attribs.class.match(/\s*sliderItem\s*/)){
@@ -109,6 +109,8 @@ function invoke(idx,item,res,end){
 					else if(attribs.id === 'p3')this._token = 'ministers'
 					else if(attribs.id === 'p4')this._token = 'congregations'
 					else if(attribs.id === 'p5')this._token = 'rate'
+					this._readtext = true;
+					this._item[this._token] = [];
 				}
 			}
 			if(name === 'span' && attribs.class && attribs.class.match(/\s*jsRespImg\s*/)){
@@ -117,32 +119,28 @@ function invoke(idx,item,res,end){
 					if(att.match(/data-image-size-\w{2}/)){
 						o[att] = attribs[att];
 					}
-				this.arr.push(o);
+				this._item.images = o;
 			}
 		},
 		ontext:function(text){
 			if(this._readtext)
-				this._item[this._token] = text;
-				if(this._token === 'population' ||
-					this._token === 'ministers' ||
-					this._token === 'congregations' ||
-					this._token === 'rate'){
-						this._token = 'facts';
-				}
+				this._item[this._token].push(text);
 			}
 		},
 		onclosetag:function(name){
 			if(this._token === 'end'){
 				this._arr.push(this._item);
 				this._token = 'init';
-			}else if(name === 'h2' || name === 'h3')
+			}else if(name === 'h2' || name === 'h3'){
 				this._token = 'facts';
+			}else if(this._token === 'population' ||
+				this._token === 'ministers' ||
+				this._token === 'congregations' ||
+				this._token === 'rate'){
+					this._token = 'facts';
+			}
 		}
 	});
-	parser._token = 'init';
-	parser._readtext = false;
-	parser._item = {};
-	parser._arr = arr;
 	if(!cache[url]){
 		console.log('cache miss '+url);
 		var req = https.get(url,function(res){
@@ -151,14 +149,11 @@ function invoke(idx,item,res,end){
 			}).on('end',function(){
 				console.log('parsed '+this.req.path+' for '+url);
 				parser.end();
-				console.log(arr);
+				console.log(this.arr);
 				cache[this.req.path] = true;
 				if(end)
-					end(arr)
+					end(this.arr)
 			}).on('error',function(err){console.log(err);cnt++;});
 		}).on('error',function(err){console.log(err);cnt++});
 	}else {console.log('cached '+url);cnt++}
-
-	if(end)end(this.arr);
-  return res;
 }
