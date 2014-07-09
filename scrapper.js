@@ -1,118 +1,153 @@
 var htmlparser = require('htmlparser2');
-//var https = require('https');
-//var http = require('http');
 var fs = require('fs');
 var crypto = require('crypto');
 var mongo = require('mongodb');
 var cron = require('node-schedule');
 
-
-var base = 'https://web.archive.org';
-var urls = ['http://www.jw.org/en/']//['https://web.archive.org/web/2014*/http://jw.org/en',
-						//'https://web.archive.org/web/2013*/http://jw.org/en',
-						//'https://web.archive.org/web/2012*/http://jw.org/en'];
+var arr = ['https://web.archive.org/web/2014*/http://www.jw.org/en/',
+						'https://web.archive.org/web/2013*/http://www.jw.org/en/',
+						'https://web.archive.org/web/2012*/http://www.jw.org/en/'];
 var cache = {};
-
+var ids = {};
 function foreach(arr,proc,end){
-	(function(){
-	this._arr = [];
 	for(var idx in arr){
-		console.log('%d %d',idx,arr.length)
-		if(idx == arr.length - 1)
-		  proc.call(this,idx,arr[idx],end);
-		else proc.call(this,idx,arr[idx]);
-	}})();
+		//console.log('process [%d, %s] of %d',idx,arr[idx],arr.length)
+		if(idx == arr.length - 1){
+			proc(idx,arr[idx],end);
+		}else proc(idx,arr[idx]);
+	}
 }
 
-function invoke(idx,url,end){
-	this._token = 'init';
-	this._readtext = false;
-	this._item = {};
-	var self = this;
+function UrlParser(procc){
+	var arr = [];
+	if(procc === undefined)
+		procc = function(item){return item;};
 	var parser = new htmlparser.Parser({
 		onopentag:function(name,attribs){
-			function dbg(){
-				console.log('onopentag %s %s %s',name,self._token,self._readtext);
-				console.log(self._item);
-				console.log(attribs);
-			}
-			if(name === 'li' && attribs.class && attribs.class.match(/\s*sliderItem\s*/)){
-				dbg();
-				if(self._item.images !== undefined){
-					self._arr.push(self._item);
-					self._item = {};
-				}
-				self._token = name;
-			}else if(self._token === 'li'){
-				if(name === 'div' && attribs.class && attribs.class.match(/\s*jsImgDescr\s*/)){
-					dbg();
-					self._token = 'facts';
-				}
-			}else if(self._token === 'facts'){
-			 if(name === 'p' || name === 'h2' || name === 'h3'){
-					dbg();
-					if(attribs.id === 'p2')self._token = 'population'
-					else if(attribs.id === 'p3')self._token = 'ministers'
-					else if(attribs.id === 'p4')self._token = 'congregations'
-					else if(attribs.id === 'p5')self._token = 'rate'
-					else self._token = name;
-					self._readtext = true;
-					self._item[self._token] = [];
-				}
-			}
-			if(name === 'span' && attribs.class && attribs.class.match(/\s*jsRespImg\s*/)){
-				dbg();
-				var o = {};
-				var add = false;
-				for(var att in attribs)
-					if(att.match(/data-img-size-\w{2}/)){
-						o[att] = attribs[att];
-						add = true;
-					}
-				if(add)
-					self._item.images = o;
-				console.log(self._item);
-			}
-		},
-		ontext:function(text){
-			if(self._readtext){
-				console.log('ontext %s %s %s',text,self._token,self._readtext);
-				self._item[self._token].push(text);
-				console.log(self._item);
-			}
-
-		},
-		onclosetag:function(name){
-			function dbg(){
-				console.log('onclosetag %s %s %s',name,self._token,self._readtext);
-				console.log(self._item);
-				console.log(self._arr);
-			}
-			if(self._readtext){
-				dbg();
-				self._token = 'facts';
-				self._readtext = false;
-
+		if(attribs.href && attribs.href.match(/.+http:\/\/www.jw.org.*/)){
+				arr.push(procc(attribs.href));
 			}
 		}
 	});
-	if(!cache[url]){
-		console.log('cache miss '+url);
-		var proto = url.match(/https:.*/)?require('https'):require('http');
-		var req = proto.get(url,function(res){
-			res.on('data',function(data){
-				parser.write(data)
-			}).on('end',function(){
-				console.log('parsed '+this.req.path+' for '+url);
-				parser.end();
-				cache[this.req.path] = true;
-				console.log(end);
-				if(end)
-					end(self._arr)
-			}).on('error',function(err){console.log(err);cnt++;});
-		}).on('error',function(err){console.log(err);cnt++});
-	}else {console.log('cached '+url);cnt++}
+	parser.items = function(){ return arr; };
+	return parser;
 }
-foreach(urls,invoke,function(arr){
-	console.log(arr);
-})
+
+function FactsParser(procc){
+	var _token = 'init';
+	var _readtext = false;
+	var _item = {};
+	var _licnt = 0;
+	var arr = [];
+	if(procc === undefined)
+		procc = function(item){ return item };
+	var parser = new htmlparser.Parser({
+		onopentag:function(name,attribs){
+			if(_token === 'init' && name === 'li' && attribs.class && attribs.class.match(/\s*sliderItem\s*/)){
+				ids[attribs['data-slide-id']] = true;
+				_token = name;
+				_licnt++;
+			}else if(_licnt){
+				if(name === 'h2' || name === 'h3' || name === 'ul'){
+					_token = name;
+					_readtext = true;
+					_item[_token] = [];
+				}else if(name === 'span' && attribs.class && attribs.class.match(/\s*jsRespImg\s*/)){
+					var o = {};
+					var images = _item.images === undefined?{}:_item.images;
+					var add = false;
+					for(var att in attribs)
+						if(att.match(/data-img-size-\w{2}/)){
+							o[att] = attribs[att];
+							add = true;
+						}else if(att.match(/data-img-type/)){
+							images[attribs[att]] = o;
+						}
+					if(add)
+						_item.images = images;
+				}
+			}
+		},
+		ontext:function(text){
+			if(_readtext && text.replace(/[\n\s\t]/g,'').length)
+					_item[_token].push(text);
+		},
+		onclosetag:function(name){
+			if(_readtext && name === 'ul'){
+				console.log(_item);
+				if(_item.images)
+					arr.push(procc(_item));
+				_token = 'init';
+				_readtext = false;
+				_item = {};
+			}
+			if(name === 'li' && _licnt){
+				_licnt--;
+			}
+		}
+	});
+	parser.d_end = parser.end;
+	parser.end = function(){
+		var _arr = arr;
+		_token = 'init';
+		_readtext = false;
+		_item = {};
+		_licnt = 0;
+		arr = [];
+		parser.d_end();
+		return _arr;
+	}
+	parser.items = function(){ return arr; };
+	return parser;
+}
+
+function Requestor(parser, maxrdrct){
+	if(maxrdrct === undefined)maxrdrct = 3;
+	var arr = [];
+	var redirects = 0;
+	var req = function(idx,url,end){
+		if(!cache[url]){
+			console.log(cache);
+			function err(err){console.log(url);console.log(err)};
+			var proto = url.match(/https:.*/)?require('https'):require('http');
+			parser.end();
+			proto.get(url,function(res){
+				if(res.statusCode === 200)
+					res.on('data',function(data){
+						parser.write(data)
+					}).on('end',function(){
+						console.log('parsed '+this.req.path+' for '+url);
+						parser.end();
+						cache[url] = this.req.path;
+						if(end)end(parser.items())
+					}).on('error',err);
+				else if(res.statusCode > 301 && res.statusCode < 309){
+					if(redirects < maxrdrct){
+						redirects++;
+						console.log('Redirecting to '+res.headers.location)
+						return req(idx,res.headers.location,end);
+					}else console.log('Maximum redirects reached for '+url)
+				}else console.log('Unable to process response ' + res.statusCode);
+			}).on('error',err);
+		}else {console.log('cached '+url);}
+	}
+	return req;
+}
+
+foreach(arr,Requestor(UrlParser(function(item){return 'https://web.archive.org' + item;})),function(arr){
+	foreach(arr,Requestor(FactsParser()),function(arr){
+		function conn(){
+			mongo.connect('mongodb://localhost:27017/jwscrapper',function(err,db){
+    		if(err)throw err;
+				db.collection('imgs').remove({},function(err,result){
+						console.log(result);
+						db.collection('imgs').insert(arr,{w:1},function(err,result){
+								console.log(result);
+								db.close();
+						});
+				});
+      });
+		}
+		conn();
+	});
+});
