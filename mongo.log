@@ -1,0 +1,254 @@
+2014-09-23T17:20:44.407-0300 [initandlisten] MongoDB starting : pid=1051 port=27017 dbpath=/Users/gafanhoto/git/jwscrapper/mongo 64-bit host=GafanhotoMacBook-Pro.local
+2014-09-23T17:20:44.407-0300 [initandlisten] 
+2014-09-23T17:20:44.408-0300 [initandlisten] ** WARNING: soft rlimits too low. Number of files is 256, should be at least 1000
+2014-09-23T17:20:44.409-0300 [initandlisten] db version v2.6.3
+2014-09-23T17:20:44.409-0300 [initandlisten] git version: nogitversion
+2014-09-23T17:20:44.409-0300 [initandlisten] OpenSSL version: OpenSSL 1.0.1h 5 Jun 2014
+2014-09-23T17:20:44.410-0300 [initandlisten] build info: Darwin GafanhotoMacBook-Pro.local 13.3.0 Darwin Kernel Version 13.3.0: Tue Jun  3 21:27:35 PDT 2014; root:xnu-2422.110.17~1/RELEASE_X86_64 x86_64 BOOST_LIB_VERSION=1_49
+2014-09-23T17:20:44.410-0300 [initandlisten] allocator: tcmalloc
+2014-09-23T17:20:44.411-0300 [initandlisten] options: { processManagement: { fork: true }, storage: { dbPath: "mongo" }, systemLog: { destination: "file", path: "mongo.log" } }
+2014-09-23T17:20:44.487-0300 [initandlisten] journal dir=/Users/gafanhoto/git/jwscrapper/mongo/journal
+2014-09-23T17:20:44.488-0300 [initandlisten] recover : no journal files present, no recovery needed
+2014-09-23T17:20:45.739-0300 [initandlisten] waiting for connections on port 27017
+2014-09-23T17:20:56.630-0300 [initandlisten] connection accepted from 127.0.0.1:50023 #1 (1 connection now open)
+2014-09-23T17:20:56.695-0300 [initandlisten] connection accepted from 127.0.0.1:50024 #2 (2 connections now open)
+2014-09-23T17:20:56.696-0300 [initandlisten] connection accepted from 127.0.0.1:50025 #3 (3 connections now open)
+2014-09-23T17:20:56.697-0300 [initandlisten] connection accepted from 127.0.0.1:50026 #4 (4 connections now open)
+2014-09-23T17:20:56.697-0300 [initandlisten] connection accepted from 127.0.0.1:50027 #5 (5 connections now open)
+2014-09-23T17:20:56.698-0300 [initandlisten] connection accepted from 127.0.0.1:50028 #6 (6 connections now open)
+2014-09-23T17:20:56.757-0300 [conn1] end connection 127.0.0.1:50023 (5 connections now open)
+2014-09-23T17:20:56.822-0300 [conn4] command jwscrapper.$cmd command: delete { delete: "imgs", writeConcern: { w: 1 }, ordered: true, deletes: [ { q: {}, limit: 0 } ] } keyUpdates:0 numYields:0  reslen:40 103ms
+2014-09-23T17:21:04.840-0300 [conn6] end connection 127.0.0.1:50028 (4 connections now open)
+2014-09-23T17:21:04.840-0300 [conn4] end connection 127.0.0.1:50026 (4 connections now open)
+2014-09-23T17:21:04.840-0300 [conn5] end connection 127.0.0.1:50027 (4 connections now open)
+2014-09-23T17:21:04.840-0300 [conn3] end connection 127.0.0.1:50025 (4 connections now open)
+2014-09-23T17:21:04.840-0300 [conn2] end connection 127.0.0.1:50024 (4 connections now open)
+2014-09-23T17:21:45.076-0300 [clientcursormon] mem (MB) res:24 virt:2797
+2014-09-23T17:21:45.076-0300 [clientcursormon]  mapped (incl journal view):320
+2014-09-23T17:21:45.077-0300 [clientcursormon]  connections:0
+2014-09-23T17:21:45.098-0300 [PeriodicTaskRunner] task: WriteBackManager::cleaner took: 38ms
+2014-09-23T17:26:45.122-0300 [clientcursormon] mem (MB) res:8 virt:2797
+2014-09-23T17:26:45.142-0300 [clientcursormon]  mapped (incl journal view):320
+2014-09-23T17:26:45.143-0300 [clientcursormon]  connections:0
+2014-09-23T17:29:53.263-0300 [initandlisten] connection accepted from 127.0.0.1:50131 #7 (1 connection now open)
+2014-09-23T17:29:53.297-0300 [conn7] end connection 127.0.0.1:50131 (0 connections now open)
+2014-09-23T17:29:53.301-0300 [initandlisten] connection accepted from 127.0.0.1:50132 #8 (1 connection now open)
+2014-09-23T17:29:53.301-0300 [initandlisten] connection accepted from 127.0.0.1:50133 #9 (2 connections now open)
+2014-09-23T17:29:53.302-0300 [initandlisten] connection accepted from 127.0.0.1:50134 #10 (3 connections now open)
+2014-09-23T17:29:53.303-0300 [initandlisten] connection accepted from 127.0.0.1:50135 #11 (4 connections now open)
+2014-09-23T17:29:53.303-0300 [initandlisten] connection accepted from 127.0.0.1:50136 #12 (5 connections now open)
+2014-09-23T17:30:02.999-0300 [conn11] end connection 127.0.0.1:50135 (4 connections now open)
+2014-09-23T17:30:02.999-0300 [conn12] end connection 127.0.0.1:50136 (4 connections now open)
+2014-09-23T17:30:02.999-0300 [conn10] end connection 127.0.0.1:50134 (4 connections now open)
+2014-09-23T17:30:02.999-0300 [conn9] end connection 127.0.0.1:50133 (4 connections now open)
+2014-09-23T17:30:02.999-0300 [conn8] end connection 127.0.0.1:50132 (4 connections now open)
+2014-09-23T17:31:01.876-0300 [initandlisten] connection accepted from 127.0.0.1:50142 #13 (1 connection now open)
+2014-09-23T17:31:01.889-0300 [conn13] end connection 127.0.0.1:50142 (0 connections now open)
+2014-09-23T17:31:01.892-0300 [initandlisten] connection accepted from 127.0.0.1:50143 #14 (1 connection now open)
+2014-09-23T17:31:01.893-0300 [initandlisten] connection accepted from 127.0.0.1:50144 #15 (2 connections now open)
+2014-09-23T17:31:01.894-0300 [initandlisten] connection accepted from 127.0.0.1:50145 #16 (3 connections now open)
+2014-09-23T17:31:01.894-0300 [initandlisten] connection accepted from 127.0.0.1:50146 #17 (4 connections now open)
+2014-09-23T17:31:01.895-0300 [initandlisten] connection accepted from 127.0.0.1:50147 #18 (5 connections now open)
+2014-09-23T17:31:11.711-0300 [conn17] end connection 127.0.0.1:50146 (4 connections now open)
+2014-09-23T17:31:11.711-0300 [conn18] end connection 127.0.0.1:50147 (4 connections now open)
+2014-09-23T17:31:11.711-0300 [conn16] end connection 127.0.0.1:50145 (4 connections now open)
+2014-09-23T17:31:11.711-0300 [conn15] end connection 127.0.0.1:50144 (4 connections now open)
+2014-09-23T17:31:11.711-0300 [conn14] end connection 127.0.0.1:50143 (4 connections now open)
+2014-09-23T17:31:45.198-0300 [clientcursormon] mem (MB) res:8 virt:2797
+2014-09-23T17:31:45.199-0300 [clientcursormon]  mapped (incl journal view):320
+2014-09-23T17:31:45.199-0300 [clientcursormon]  connections:0
+2014-09-23T17:31:59.778-0300 [initandlisten] connection accepted from 127.0.0.1:50155 #19 (1 connection now open)
+2014-09-23T17:31:59.790-0300 [conn19] end connection 127.0.0.1:50155 (0 connections now open)
+2014-09-23T17:31:59.793-0300 [initandlisten] connection accepted from 127.0.0.1:50156 #20 (1 connection now open)
+2014-09-23T17:31:59.795-0300 [initandlisten] connection accepted from 127.0.0.1:50157 #21 (2 connections now open)
+2014-09-23T17:31:59.795-0300 [initandlisten] connection accepted from 127.0.0.1:50158 #22 (3 connections now open)
+2014-09-23T17:31:59.796-0300 [initandlisten] connection accepted from 127.0.0.1:50159 #23 (4 connections now open)
+2014-09-23T17:31:59.796-0300 [initandlisten] connection accepted from 127.0.0.1:50160 #24 (5 connections now open)
+2014-09-23T17:32:11.950-0300 [conn23] end connection 127.0.0.1:50159 (4 connections now open)
+2014-09-23T17:32:11.951-0300 [conn22] end connection 127.0.0.1:50158 (4 connections now open)
+2014-09-23T17:32:11.951-0300 [conn24] end connection 127.0.0.1:50160 (4 connections now open)
+2014-09-23T17:32:11.951-0300 [conn21] end connection 127.0.0.1:50157 (4 connections now open)
+2014-09-23T17:32:11.951-0300 [conn20] end connection 127.0.0.1:50156 (4 connections now open)
+2014-09-23T17:35:05.187-0300 [initandlisten] connection accepted from 127.0.0.1:50167 #25 (1 connection now open)
+2014-09-23T17:35:05.221-0300 [conn25] end connection 127.0.0.1:50167 (0 connections now open)
+2014-09-23T17:35:05.225-0300 [initandlisten] connection accepted from 127.0.0.1:50168 #26 (1 connection now open)
+2014-09-23T17:35:05.226-0300 [initandlisten] connection accepted from 127.0.0.1:50169 #27 (2 connections now open)
+2014-09-23T17:35:05.226-0300 [initandlisten] connection accepted from 127.0.0.1:50170 #28 (3 connections now open)
+2014-09-23T17:35:05.227-0300 [initandlisten] connection accepted from 127.0.0.1:50171 #29 (4 connections now open)
+2014-09-23T17:35:05.228-0300 [initandlisten] connection accepted from 127.0.0.1:50172 #30 (5 connections now open)
+2014-09-23T17:35:20.788-0300 [conn30] end connection 127.0.0.1:50172 (4 connections now open)
+2014-09-23T17:35:20.788-0300 [conn29] end connection 127.0.0.1:50171 (4 connections now open)
+2014-09-23T17:35:20.788-0300 [conn28] end connection 127.0.0.1:50170 (4 connections now open)
+2014-09-23T17:35:20.788-0300 [conn26] end connection 127.0.0.1:50168 (4 connections now open)
+2014-09-23T17:35:20.788-0300 [conn27] end connection 127.0.0.1:50169 (4 connections now open)
+2014-09-23T17:36:23.596-0300 [initandlisten] connection accepted from 127.0.0.1:50181 #31 (1 connection now open)
+2014-09-23T17:36:23.609-0300 [conn31] end connection 127.0.0.1:50181 (0 connections now open)
+2014-09-23T17:36:23.612-0300 [initandlisten] connection accepted from 127.0.0.1:50182 #32 (1 connection now open)
+2014-09-23T17:36:23.613-0300 [initandlisten] connection accepted from 127.0.0.1:50183 #33 (2 connections now open)
+2014-09-23T17:36:23.614-0300 [initandlisten] connection accepted from 127.0.0.1:50184 #34 (3 connections now open)
+2014-09-23T17:36:23.614-0300 [initandlisten] connection accepted from 127.0.0.1:50185 #35 (4 connections now open)
+2014-09-23T17:36:23.615-0300 [initandlisten] connection accepted from 127.0.0.1:50186 #36 (5 connections now open)
+2014-09-23T17:36:36.100-0300 [conn35] end connection 127.0.0.1:50185 (4 connections now open)
+2014-09-23T17:36:36.100-0300 [conn36] end connection 127.0.0.1:50186 (4 connections now open)
+2014-09-23T17:36:36.100-0300 [conn34] end connection 127.0.0.1:50184 (4 connections now open)
+2014-09-23T17:36:36.100-0300 [conn32] end connection 127.0.0.1:50182 (4 connections now open)
+2014-09-23T17:36:36.100-0300 [conn33] end connection 127.0.0.1:50183 (4 connections now open)
+2014-09-23T17:36:45.250-0300 [clientcursormon] mem (MB) res:8 virt:2797
+2014-09-23T17:36:45.250-0300 [clientcursormon]  mapped (incl journal view):320
+2014-09-23T17:36:45.251-0300 [clientcursormon]  connections:0
+2014-09-23T17:39:02.038-0300 [initandlisten] connection accepted from 127.0.0.1:50196 #37 (1 connection now open)
+2014-09-23T17:39:02.058-0300 [conn37] end connection 127.0.0.1:50196 (0 connections now open)
+2014-09-23T17:39:02.061-0300 [initandlisten] connection accepted from 127.0.0.1:50197 #38 (1 connection now open)
+2014-09-23T17:39:02.062-0300 [initandlisten] connection accepted from 127.0.0.1:50198 #39 (2 connections now open)
+2014-09-23T17:39:02.063-0300 [initandlisten] connection accepted from 127.0.0.1:50199 #40 (3 connections now open)
+2014-09-23T17:39:02.063-0300 [initandlisten] connection accepted from 127.0.0.1:50200 #41 (4 connections now open)
+2014-09-23T17:39:02.064-0300 [initandlisten] connection accepted from 127.0.0.1:50201 #42 (5 connections now open)
+2014-09-23T17:39:08.512-0300 [conn42] end connection 127.0.0.1:50201 (4 connections now open)
+2014-09-23T17:39:08.512-0300 [conn41] end connection 127.0.0.1:50200 (4 connections now open)
+2014-09-23T17:39:08.512-0300 [conn40] end connection 127.0.0.1:50199 (4 connections now open)
+2014-09-23T17:39:08.512-0300 [conn39] end connection 127.0.0.1:50198 (4 connections now open)
+2014-09-23T17:39:08.512-0300 [conn38] end connection 127.0.0.1:50197 (4 connections now open)
+2014-09-23T17:41:45.307-0300 [clientcursormon] mem (MB) res:8 virt:2797
+2014-09-23T17:41:45.308-0300 [clientcursormon]  mapped (incl journal view):320
+2014-09-23T17:41:45.308-0300 [clientcursormon]  connections:0
+2014-09-23T17:42:22.139-0300 [initandlisten] connection accepted from 127.0.0.1:50215 #43 (1 connection now open)
+2014-09-23T17:42:22.152-0300 [conn43] end connection 127.0.0.1:50215 (0 connections now open)
+2014-09-23T17:42:22.155-0300 [initandlisten] connection accepted from 127.0.0.1:50216 #44 (1 connection now open)
+2014-09-23T17:42:22.156-0300 [initandlisten] connection accepted from 127.0.0.1:50217 #45 (2 connections now open)
+2014-09-23T17:42:22.157-0300 [initandlisten] connection accepted from 127.0.0.1:50218 #46 (3 connections now open)
+2014-09-23T17:42:22.157-0300 [initandlisten] connection accepted from 127.0.0.1:50219 #47 (4 connections now open)
+2014-09-23T17:42:22.158-0300 [initandlisten] connection accepted from 127.0.0.1:50220 #48 (5 connections now open)
+2014-09-23T17:42:25.098-0300 [conn48] end connection 127.0.0.1:50220 (4 connections now open)
+2014-09-23T17:42:25.098-0300 [conn47] end connection 127.0.0.1:50219 (4 connections now open)
+2014-09-23T17:42:25.098-0300 [conn46] end connection 127.0.0.1:50218 (4 connections now open)
+2014-09-23T17:42:25.098-0300 [conn45] end connection 127.0.0.1:50217 (4 connections now open)
+2014-09-23T17:42:25.098-0300 [conn44] end connection 127.0.0.1:50216 (4 connections now open)
+2014-09-23T17:43:38.249-0300 [initandlisten] connection accepted from 127.0.0.1:50224 #49 (1 connection now open)
+2014-09-23T17:43:38.263-0300 [conn49] end connection 127.0.0.1:50224 (0 connections now open)
+2014-09-23T17:43:38.265-0300 [initandlisten] connection accepted from 127.0.0.1:50225 #50 (1 connection now open)
+2014-09-23T17:43:38.266-0300 [initandlisten] connection accepted from 127.0.0.1:50226 #51 (2 connections now open)
+2014-09-23T17:43:38.267-0300 [initandlisten] connection accepted from 127.0.0.1:50227 #52 (3 connections now open)
+2014-09-23T17:43:38.268-0300 [initandlisten] connection accepted from 127.0.0.1:50228 #53 (4 connections now open)
+2014-09-23T17:43:38.268-0300 [initandlisten] connection accepted from 127.0.0.1:50229 #54 (5 connections now open)
+2014-09-23T17:43:54.605-0300 [conn54] end connection 127.0.0.1:50229 (4 connections now open)
+2014-09-23T17:43:54.605-0300 [conn53] end connection 127.0.0.1:50228 (4 connections now open)
+2014-09-23T17:43:54.606-0300 [conn52] end connection 127.0.0.1:50227 (4 connections now open)
+2014-09-23T17:43:54.606-0300 [conn51] end connection 127.0.0.1:50226 (4 connections now open)
+2014-09-23T17:43:54.606-0300 [conn50] end connection 127.0.0.1:50225 (4 connections now open)
+2014-09-23T17:44:15.549-0300 [initandlisten] connection accepted from 127.0.0.1:50236 #55 (1 connection now open)
+2014-09-23T17:44:15.562-0300 [conn55] end connection 127.0.0.1:50236 (0 connections now open)
+2014-09-23T17:44:15.565-0300 [initandlisten] connection accepted from 127.0.0.1:50237 #56 (1 connection now open)
+2014-09-23T17:44:15.566-0300 [initandlisten] connection accepted from 127.0.0.1:50238 #57 (2 connections now open)
+2014-09-23T17:44:15.567-0300 [initandlisten] connection accepted from 127.0.0.1:50239 #58 (3 connections now open)
+2014-09-23T17:44:15.567-0300 [initandlisten] connection accepted from 127.0.0.1:50240 #59 (4 connections now open)
+2014-09-23T17:44:15.568-0300 [initandlisten] connection accepted from 127.0.0.1:50241 #60 (5 connections now open)
+2014-09-23T17:44:21.922-0300 [conn58] end connection 127.0.0.1:50239 (4 connections now open)
+2014-09-23T17:44:21.922-0300 [conn60] end connection 127.0.0.1:50241 (4 connections now open)
+2014-09-23T17:44:21.922-0300 [conn57] end connection 127.0.0.1:50238 (4 connections now open)
+2014-09-23T17:44:21.922-0300 [conn59] end connection 127.0.0.1:50240 (4 connections now open)
+2014-09-23T17:44:21.922-0300 [conn56] end connection 127.0.0.1:50237 (4 connections now open)
+2014-09-23T17:45:47.325-0300 [initandlisten] connection accepted from 127.0.0.1:50262 #61 (1 connection now open)
+2014-09-23T17:45:47.358-0300 [conn61] end connection 127.0.0.1:50262 (0 connections now open)
+2014-09-23T17:45:47.361-0300 [initandlisten] connection accepted from 127.0.0.1:50263 #62 (1 connection now open)
+2014-09-23T17:45:47.362-0300 [initandlisten] connection accepted from 127.0.0.1:50264 #63 (2 connections now open)
+2014-09-23T17:45:47.364-0300 [initandlisten] connection accepted from 127.0.0.1:50265 #64 (3 connections now open)
+2014-09-23T17:45:47.365-0300 [initandlisten] connection accepted from 127.0.0.1:50266 #65 (4 connections now open)
+2014-09-23T17:45:47.366-0300 [initandlisten] connection accepted from 127.0.0.1:50267 #66 (5 connections now open)
+2014-09-23T17:45:55.097-0300 [conn65] end connection 127.0.0.1:50266 (4 connections now open)
+2014-09-23T17:45:55.097-0300 [conn66] end connection 127.0.0.1:50267 (4 connections now open)
+2014-09-23T17:45:55.097-0300 [conn64] end connection 127.0.0.1:50265 (4 connections now open)
+2014-09-23T17:45:55.097-0300 [conn63] end connection 127.0.0.1:50264 (4 connections now open)
+2014-09-23T17:45:55.097-0300 [conn62] end connection 127.0.0.1:50263 (4 connections now open)
+2014-09-23T17:46:40.225-0300 [initandlisten] connection accepted from 127.0.0.1:50273 #67 (1 connection now open)
+2014-09-23T17:46:40.256-0300 [conn67] end connection 127.0.0.1:50273 (0 connections now open)
+2014-09-23T17:46:40.259-0300 [initandlisten] connection accepted from 127.0.0.1:50274 #68 (1 connection now open)
+2014-09-23T17:46:40.260-0300 [initandlisten] connection accepted from 127.0.0.1:50275 #69 (2 connections now open)
+2014-09-23T17:46:40.261-0300 [initandlisten] connection accepted from 127.0.0.1:50276 #70 (3 connections now open)
+2014-09-23T17:46:40.262-0300 [initandlisten] connection accepted from 127.0.0.1:50277 #71 (4 connections now open)
+2014-09-23T17:46:40.262-0300 [initandlisten] connection accepted from 127.0.0.1:50278 #72 (5 connections now open)
+2014-09-23T17:46:45.374-0300 [clientcursormon] mem (MB) res:8 virt:2800
+2014-09-23T17:46:45.375-0300 [clientcursormon]  mapped (incl journal view):320
+2014-09-23T17:46:45.375-0300 [clientcursormon]  connections:5
+2014-09-23T17:46:46.319-0300 [conn71] end connection 127.0.0.1:50277 (4 connections now open)
+2014-09-23T17:46:46.319-0300 [conn72] end connection 127.0.0.1:50278 (4 connections now open)
+2014-09-23T17:46:46.319-0300 [conn70] end connection 127.0.0.1:50276 (4 connections now open)
+2014-09-23T17:46:46.319-0300 [conn69] end connection 127.0.0.1:50275 (4 connections now open)
+2014-09-23T17:46:46.319-0300 [conn68] end connection 127.0.0.1:50274 (4 connections now open)
+2014-09-23T17:51:45.432-0300 [clientcursormon] mem (MB) res:8 virt:2797
+2014-09-23T17:51:45.453-0300 [clientcursormon]  mapped (incl journal view):320
+2014-09-23T17:51:45.454-0300 [clientcursormon]  connections:0
+2014-09-23T17:56:45.514-0300 [clientcursormon] mem (MB) res:8 virt:2797
+2014-09-23T17:56:45.514-0300 [clientcursormon]  mapped (incl journal view):320
+2014-09-23T17:56:45.514-0300 [clientcursormon]  connections:0
+2014-09-23T18:01:45.566-0300 [clientcursormon] mem (MB) res:6 virt:2797
+2014-09-23T18:01:45.590-0300 [clientcursormon]  mapped (incl journal view):320
+2014-09-23T18:01:45.590-0300 [clientcursormon]  connections:0
+2014-09-23T18:06:45.665-0300 [clientcursormon] mem (MB) res:6 virt:2797
+2014-09-23T18:06:45.666-0300 [clientcursormon]  mapped (incl journal view):320
+2014-09-23T18:06:45.666-0300 [clientcursormon]  connections:0
+2014-09-23T18:11:45.725-0300 [clientcursormon] mem (MB) res:6 virt:2797
+2014-09-23T18:11:45.793-0300 [clientcursormon]  mapped (incl journal view):320
+2014-09-23T18:11:45.793-0300 [clientcursormon]  connections:0
+2014-09-23T18:16:45.850-0300 [clientcursormon] mem (MB) res:6 virt:2797
+2014-09-23T18:16:45.917-0300 [clientcursormon]  mapped (incl journal view):320
+2014-09-23T18:16:45.918-0300 [clientcursormon]  connections:0
+2014-09-23T18:21:46.238-0300 [clientcursormon] mem (MB) res:6 virt:2797
+2014-09-23T18:21:46.419-0300 [clientcursormon]  mapped (incl journal view):320
+2014-09-23T18:21:46.419-0300 [clientcursormon]  connections:0
+2014-09-23T18:22:45.860-0300 [PeriodicTaskRunner] task: WriteBackManager::cleaner took: 155ms
+2014-09-23T18:22:47.050-0300 [TTLMonitor] query admin.system.indexes query: { expireAfterSeconds: { $exists: true } } planSummary: EOF ntoreturn:0 ntoskip:0 nscanned:0 nscannedObjects:0 keyUpdates:0 numYields:0 locks(micros) r:862293 nreturned:0 reslen:20 766ms
+2014-09-23T18:22:47.434-0300 [TTLMonitor] query jwscrapper.system.indexes query: { expireAfterSeconds: { $exists: true } } planSummary: COLLSCAN ntoreturn:0 ntoskip:0 nscanned:1 nscannedObjects:1 keyUpdates:0 numYields:0 locks(micros) r:346229 nreturned:0 reslen:20 346ms
+2014-09-23T18:26:47.402-0300 [clientcursormon] mem (MB) res:2 virt:2797
+2014-09-23T18:26:47.422-0300 [clientcursormon]  mapped (incl journal view):320
+2014-09-23T18:26:47.423-0300 [clientcursormon]  connections:0
+2014-09-23T18:31:47.480-0300 [clientcursormon] mem (MB) res:2 virt:2797
+2014-09-23T18:31:47.501-0300 [clientcursormon]  mapped (incl journal view):320
+2014-09-23T18:31:47.501-0300 [clientcursormon]  connections:0
+2014-09-23T18:36:47.583-0300 [clientcursormon] mem (MB) res:2 virt:2797
+2014-09-23T18:36:47.583-0300 [clientcursormon]  mapped (incl journal view):320
+2014-09-23T18:36:47.584-0300 [clientcursormon]  connections:0
+2014-09-23T19:01:19.978-0300 [clientcursormon] mem (MB) res:2 virt:2797
+2014-09-23T19:01:21.747-0300 [clientcursormon]  mapped (incl journal view):320
+2014-09-23T19:01:21.748-0300 [clientcursormon]  connections:0
+2014-09-23T19:56:45.478-0300 [clientcursormon] mem (MB) res:2 virt:2797
+2014-09-23T19:56:45.495-0300 [clientcursormon]  mapped (incl journal view):320
+2014-09-23T19:56:45.496-0300 [clientcursormon]  connections:0
+2014-09-23T20:51:03.987-0300 [clientcursormon] mem (MB) res:2 virt:2797
+2014-09-23T20:51:04.030-0300 [clientcursormon]  mapped (incl journal view):320
+2014-09-23T20:51:04.030-0300 [clientcursormon]  connections:0
+2014-09-23T21:45:21.214-0300 [clientcursormon] mem (MB) res:2 virt:2797
+2014-09-23T21:45:21.230-0300 [clientcursormon]  mapped (incl journal view):320
+2014-09-23T21:45:21.231-0300 [clientcursormon]  connections:0
+2014-09-23T22:39:38.981-0300 [clientcursormon] mem (MB) res:2 virt:2797
+2014-09-23T22:39:38.994-0300 [clientcursormon]  mapped (incl journal view):320
+2014-09-23T22:39:38.994-0300 [clientcursormon]  connections:0
+2014-09-23T23:33:55.957-0300 [clientcursormon] mem (MB) res:2 virt:2797
+2014-09-23T23:33:55.983-0300 [clientcursormon]  mapped (incl journal view):320
+2014-09-23T23:33:55.984-0300 [clientcursormon]  connections:0
+2014-09-23T23:54:15.266-0300 [clientcursormon] mem (MB) res:2 virt:2797
+2014-09-23T23:54:15.286-0300 [clientcursormon]  mapped (incl journal view):320
+2014-09-23T23:54:15.286-0300 [clientcursormon]  connections:0
+2014-09-23T23:59:16.002-0300 [clientcursormon] mem (MB) res:1 virt:2797
+2014-09-23T23:59:16.787-0300 [clientcursormon]  mapped (incl journal view):320
+2014-09-23T23:59:16.788-0300 [clientcursormon]  connections:0
+2014-09-23T23:59:27.538-0300 [PeriodicTaskRunner] task: DBConnectionPool-cleaner took: 115ms
+2014-09-23T23:59:27.580-0300 [PeriodicTaskRunner] task: WriteBackManager::cleaner took: 23ms
+2014-09-23T23:59:28.415-0300 [TTLMonitor] query admin.system.indexes query: { expireAfterSeconds: { $exists: true } } planSummary: EOF ntoreturn:0 ntoskip:0 nscanned:0 nscannedObjects:0 keyUpdates:0 numYields:0 locks(micros) r:587839 nreturned:0 reslen:20 587ms
+2014-09-23T23:59:28.627-0300 [TTLMonitor] query jwscrapper.system.indexes query: { expireAfterSeconds: { $exists: true } } planSummary: COLLSCAN ntoreturn:0 ntoskip:0 nscanned:1 nscannedObjects:1 keyUpdates:0 numYields:0 locks(micros) r:211192 nreturned:0 reslen:20 211ms
+2014-09-23T23:59:28.912-0300 [TTLMonitor] query local.system.indexes query: { expireAfterSeconds: { $exists: true } } planSummary: COLLSCAN ntoreturn:0 ntoskip:0 nscanned:1 nscannedObjects:1 keyUpdates:0 numYields:1 locks(micros) r:568006 nreturned:0 reslen:20 284ms
+2014-09-24T00:04:17.081-0300 [clientcursormon] mem (MB) res:1 virt:2797
+2014-09-24T00:04:17.102-0300 [clientcursormon]  mapped (incl journal view):320
+2014-09-24T00:04:17.102-0300 [clientcursormon]  connections:0
+2014-09-24T00:09:17.172-0300 [clientcursormon] mem (MB) res:1 virt:2797
+2014-09-24T00:09:17.173-0300 [clientcursormon]  mapped (incl journal view):320
+2014-09-24T00:09:17.173-0300 [clientcursormon]  connections:0
+2014-09-24T00:14:17.237-0300 [clientcursormon] mem (MB) res:1 virt:2797
+2014-09-24T00:14:17.238-0300 [clientcursormon]  mapped (incl journal view):320
+2014-09-24T00:14:17.238-0300 [clientcursormon]  connections:0
+2014-09-24T00:19:17.300-0300 [clientcursormon] mem (MB) res:1 virt:2797
+2014-09-24T00:19:17.301-0300 [clientcursormon]  mapped (incl journal view):320
+2014-09-24T00:19:17.301-0300 [clientcursormon]  connections:0
+2014-09-24T00:24:17.369-0300 [clientcursormon] mem (MB) res:1 virt:2797
+2014-09-24T00:24:17.392-0300 [clientcursormon]  mapped (incl journal view):320
+2014-09-24T00:24:17.393-0300 [clientcursormon]  connections:0
+2014-09-24T00:26:40.479-0300 [signalProcessingThread] got signal 15 (Terminated: 15), will terminate after current cmd ends
